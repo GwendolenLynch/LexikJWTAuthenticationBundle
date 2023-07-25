@@ -165,7 +165,10 @@ class LexikJWTAuthenticationExtension extends Extension
                 ->getDefinition('lexik_jwt_authentication.api_platform.openapi.factory')
                 ->replaceArgument(1, $config['api_platform']['check_path'] ?? null)
                 ->replaceArgument(2, $config['api_platform']['username_path'] ?? null)
-                ->replaceArgument(3, $config['api_platform']['password_path'] ?? null);
+                ->replaceArgument(3, $config['api_platform']['password_path'] ?? null)
+                ->replaceArgument(4, $config['api_platform']['operation_id'] ?? null)
+                ->replaceArgument(5, $config['api_platform']['tags'] ?? [])
+                ->replaceArgument(6, $config['api_platform']['token_parameter_name'] ?? null);
         }
 
         $this->processWithWebTokenConfig($config, $container, $loader);

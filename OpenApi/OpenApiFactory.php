@@ -24,16 +24,22 @@ class OpenApiFactory implements OpenApiFactoryInterface
      */
     private $decorated;
 
+    private $operationId;
+    private $tags;
+    private $tokenParameterName;
     private $checkPath;
     private $usernamePath;
     private $passwordPath;
 
-    public function __construct(OpenApiFactoryInterface $decorated, string $checkPath, string $usernamePath, string $passwordPath)
+    public function __construct(OpenApiFactoryInterface $decorated, string $checkPath, string $usernamePath, string $passwordPath, string $operationId, array $tags, string $tokenParameterName)
     {
         $this->decorated = $decorated;
         $this->checkPath = $checkPath;
         $this->usernamePath = $usernamePath;
         $this->passwordPath = $passwordPath;
+        $this->operationId = $operationId;
+        $this->tags = $tags;
+        $this->tokenParameterName = $tokenParameterName;
     }
 
     /**
@@ -58,8 +64,8 @@ class OpenApiFactory implements OpenApiFactoryInterface
             ->getPaths()
             ->addPath($this->checkPath, (new PathItem())->withPost(
                 (new Operation())
-                ->withOperationId('login_check_post')
-                ->withTags(['Login Check'])
+                ->withOperationId($this->operationId)
+                ->withTags($this->tags)
                 ->withResponses([
                     Response::HTTP_OK => [
                         'description' => 'User token created',
@@ -68,13 +74,13 @@ class OpenApiFactory implements OpenApiFactoryInterface
                                 'schema' => [
                                     'type' => 'object',
                                     'properties' => [
-                                        'token' => [
+                                        $this->tokenParameterName => [
                                             'readOnly' => true,
                                             'type' => 'string',
                                             'nullable' => false,
                                         ],
                                     ],
-                                    'required' => ['token'],
+                                    'required' => [$this->tokenParameterName],
                                 ],
                             ],
                         ],

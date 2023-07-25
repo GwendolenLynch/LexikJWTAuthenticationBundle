@@ -2,7 +2,6 @@
 
 namespace Lexik\Bundle\JWTAuthenticationBundle\DependencyInjection;
 
-use ApiPlatform\Symfony\Bundle\ApiPlatformBundle;
 use Symfony\Component\Config\Definition\BaseNode;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -121,6 +120,19 @@ class Configuration implements ConfigurationInterface
                     ->canBeEnabled()
                     ->info('API Platform compatibility: add check_path in OpenAPI documentation.')
                     ->children()
+                        ->scalarNode('operation_id')
+                            ->defaultValue('login_check_post')
+                            ->info('OpenAPI operation ID.')
+                        ->end()
+                        ->arrayNode('tags')
+                            ->scalarPrototype()->end()
+                            ->defaultValue(['Login Check'])
+                            ->info('Tags to add to the operation in OpenAPI.')
+                        ->end()
+                        ->scalarNode('token_parameter_name')
+                            ->defaultValue('token')
+                            ->info('The property name to use for the token in the JSON response object.')
+                        ->end()
                         ->scalarNode('check_path')
                             ->defaultNull()
                             ->info('The login check path to add in OpenAPI.')

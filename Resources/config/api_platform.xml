@@ -10,6 +10,9 @@
             <argument /><!-- check path -->
             <argument /><!-- username path -->
             <argument /><!-- password path -->
+            <argument /><!-- operation ID -->
+            <argument /><!-- tags -->
+            <argument /><!-- token property name -->
         </service>
     </services>
 
